@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.order">
+    <!-- 리절트 맵 정의 -->
+    <delete id="deleteGoodsFromCart" parameterType="orderVO">
+        delete from t_shopping_cart
+        where goods_id=#{goods_id}
+    </delete>
+
+    <insert id="insertNewOrder" parameterType="orderVO">
+        <selectKey keyProperty="order_seq_num" order="BEFORE" resultType="int">
+            select order_seq_num.nextval from dual
+        </selectKey>
+        <![CDATA[
+			insert into t_shopping_order(order_seq_num,
+			                            order_id,
+										  member_id,
+									    goods_id,
+									    goods_title,
+									    goods_fileName,
+									    order_goods_qty,
+									    goods_sales_price,
+									    orderer_name,
+									    receiver_name,
+									    receiver_hp1,
+					                    receiver_hp2,
+					                    receiver_hp3,
+					                    receiver_tel1,
+					                    receiver_tel2,
+					                    receiver_tel3,
+					                    delivery_address,
+					                    delivery_message,
+						                delivery_method,
+						                gift_wrapping,
+						                pay_method,
+						                card_com_name,
+						                card_pay_month,
+						                orderer_hp,
+						                pay_orderer_hp_num)
+							     values(#{order_seq_num},
+							            #{order_id},
+									    #{member_id},
+									    #{goods_id},
+									    #{goods_title},
+									    #{goods_fileName},
+									    #{order_goods_qty},
+									    #{goods_sales_price},
+									    #{orderer_name},
+									    #{receiver_name},
+									    #{receiver_hp1},
+					                    #{receiver_hp2},
+					                    #{receiver_hp3},
+					                    #{receiver_tel1},
+					                    #{receiver_tel2},
+					                    #{receiver_tel3},
+					                    #{delivery_address},
+					                    #{delivery_message},
+						                #{delivery_method},
+						                #{gift_wrapping},
+						                #{pay_method},
+						                #{card_com_name},
+						                #{card_pay_month},
+						                #{orderer_hp},
+						                #{pay_orderer_hp_num})
+    	]]>
+    </insert>
+    <resultMap id="orderGoodsResult" type="OrderVO">
+        <result column="order_seq_num" property="order_seq_num"/>
+        <result column="order_id" property="order_id"/>
+        <result column="member_id" property="member_id"/>
+        <result column="goods_id" property="goods_id"/>
+        <result column="goods_title" property="goods_title"/>
+        <result column="goods_sales_price" property="goods_sales_price"/>
+        <result column="order_total_price" property="order_total_price"/>
+        <result column="order_goods_qty" property="order_goods_qty"/>
+
+        <result column="orderer_name" property="orderer_name"/>
+        <result column="receiver_name" property="receiver_name"/>
+        <result column="receiver_hp1" property="receiver_hp1"/>
+        <result column="receiver_hp2" property="receiver_hp2"/>
+        <result column="receiver_hp3" property="receiver_hp3"/>
+
+        <result column="receiver_tel1" property="receiver_tel1"/>
+        <result column="receiver_tel2" property="receiver_tel2"/>
+        <result column="receiver_tel3" property="receiver_tel3"/>
+        <result column="delivery_address" property="delivery_address"/>
+        <result column="delivery_message" property="delivery_message"/>
+
+        <result column="delivery_method" property="delivery_method"/>
+        <result column="gift_wrapping" property="gift_wrapping"/>
+        <result column="pay_method" property="pay_method"/>
+        <result column="card_com_name" property="card_com_name"/>
+        <result column="card_pay_month" property="card_pay_month"/>
+
+        <result column="pay_orderer_hp_num" property="pay_orderer_hp_num"/>
+        <result column="pay_order_time" property="pay_order_time"/>
+        <result column="delivery_state" property="delivery_state"/>
+        <result column="final_total_price" property="final_total_price"/>
+        <result column="goods_qty" property="goods_qty"/>
+        <result column="orderer_hp" property="orderer_hp"/>
+        <result column="goods_fileName" property="goods_fileName"/>
+    </resultMap>
+
+    <select id="selectOrderID" resultType="int">
+        <![CDATA[
+		    select seq_order_id.nextval from dual
+    	]]>
+    </select>
+
+    <select id="selectMyOrder" parameterType="String" resultMap="orderGoodsResult">
+        <![CDATA[
+		    select * from t_shopping_order
+            where to_char(pay_order_time,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd') 
+            and order_id=#{order_id}
+            order by pay_order_time desc
+    	]]>
+    </select>
+
+    <select id="selectMyOrderList" parameterType="orderVO" resultMap="orderGoodsResult">
+        <![CDATA[
+			select * from t_shopping_order
+			where to_char(pay_order_time,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+        	and member_id=#{member_id}
+        	order by pay_order_time desc
+		]]>
+    </select>
+
+</mapper>

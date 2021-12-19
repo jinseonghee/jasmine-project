@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+    <!-- 리절트 맵 정의 -->
+    <insert id="insertNewMember" parameterType="memberVO">
+        <![CDATA[
+    	insert into t_shopping_member(member_id,
+				 					  member_pw,
+                                     member_name,
+                                     member_gender,
+                                     member_birth_y,
+                                     member_birth_m,
+                                     member_birth_d,
+                                     member_birth_gn,
+                                     tel1,
+                                     tel2,
+                                     tel3,
+                                     hp1,
+                                     hp2,
+                                     hp3,
+                                     smssts_yn,
+                                     email1,
+                                     email2,
+                                     emailsts_yn,
+                                     zipcode,
+                                     roadAddress,
+                                     jibunAddress,
+                                     namujiAddress,
+                                     kakao_id,
+                                     age_range)
+							 values(#{member_id},
+									#{member_pw},
+									#{member_name},
+                                 	#{member_gender},
+                                   	#{member_birth_y},
+                                   	#{member_birth_m},
+                                    #{member_birth_d},
+                                    #{member_birth_gn},
+                                    #{tel1},
+                                    #{tel2},
+                                    #{tel3},
+                                    #{hp1},
+                                    #{hp2},
+                                    #{hp3},
+                                    #{smssts_yn},
+                                    #{email1},
+                                    #{email2},
+                                    #{emailsts_yn},
+                                    #{zipcode},
+                                    #{roadAddress},
+                                    #{jibunAddress},
+                                    #{namujiAddress},
+                                    #{kakao_id},
+                                    #{age_range})
+   ]]>
+    </insert>
+
+    <resultMap id="memberResult" type="MemberVO">
+        <result column="member_id" property="member_id"/>
+        <result column="member_pw" property="member_pw"/>
+        <result column="member_name" property="member_name"/>
+        <result column="member_gender" property="member_gender"/>
+
+        <result column="member_birth_y" property="member_birth_y"/>
+        <result column="member_birth_m" property="member_birth_m"/>
+        <result column="member_birth_d" property="member_birth_d"/>
+
+        <result column="member_birth_gn" property="member_birth_gn"/>
+        <result column="tel1" property="tel1"/>
+        <result column="tel2" property="tel2"/>
+        <result column="tel3" property="tel3"/>
+
+        <result column="hp1" property="hp1"/>
+        <result column="hp2" property="hp2"/>
+        <result column="hp3" property="hp3"/>
+        <result column="smssts_yn" property="smssts_yn"/>
+        <result column="email1" property="email1"/>
+        <result column="email2" property="email2"/>
+        <result column="emailsts_yn" property="emailsts_yn"/>
+
+        <result column="zipcode" property="zipcode"/>
+        <result column="roadAddress" property="roadAddress"/>
+        <result column="jibunAddress" property="jibunAddress"/>
+        <result column="namujiAddress" property="namujiAddress"/>
+        <result column="joinDate" property="joinDate"/>
+        <result column="kakao_id" property="kakao_id"/>
+        <result column="age_range" property="age_range"/>
+    </resultMap>
+
+    <select id="kakaoLogin" parameterType="String" resultType="memberVO">
+        <![CDATA[
+			select * from t_shopping_member 
+			 where kakao_id=#{kakao_id}		
+		]]>
+    </select>
+
+
+    <select id="selectOverlappedID" parameterType="String" resultType="String">
+        select decode(count(*),1, 'true', 0, 'false')
+        from t_shopping_member
+        where member_id = #{id}
+    </select>
+
+    <select id="kakaoOverlap" parameterType="String" resultType="String">
+        select decode(count(*),1, 'true', 0, 'false')
+        from t_shopping_member
+        where kakao_id = #{id}
+    </select>
+    <select id="login" parameterType="java.util.Map" resultType="memberVO">
+        <![CDATA[
+			select * from t_shopping_member
+			 where member_id=#{member_id}
+			 and member_pw=#{member_pw}
+		]]>
+    </select>
+</mapper>

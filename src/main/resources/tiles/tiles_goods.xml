@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition extends="baseLayout" name="/goods/goodsDetail">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/goodsDetail.jsp"/>
+    </definition>
+
+    <definition extends="baseLayout" name="/goods/searchGoods">
+        <put-attribute name="title" value="상품 검색 결과 페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/searchGoods.jsp"/>
+    </definition>
+
+    <definition extends="baseLayout" name="/goods/categoryGoods">
+        <put-attribute name="title" value="상품 검색 결과 페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/categoryGoods.jsp"/>
+    </definition>
+
+    <definition extends="baseLayout" name="/goods/categoryGoodsNovel">
+        <put-attribute name="title" value="상품 검색 결과 페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/categoryGoodsNovel.jsp"/>
+    </definition>
+
+    <definition extends="baseLayout" name="/goods/categoryGoodsComic">
+        <put-attribute name="title" value="상품 검색 결과 페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/categoryGoodsComic.jsp"/>
+    </definition>
+
+    <definition extends="baseLayout" name="/goods/categoryGoodsSD">
+        <put-attribute name="title" value="상품 검색 결과 페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/categoryGoodsSD.jsp"/>
+    </definition>
+
+    <definition extends="baseLayout" name="/goods/categoryGoodsChild">
+        <put-attribute name="title" value="상품 검색 결과 페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/categoryGoodsChild.jsp"/>
+    </definition>
+
+    <definition extends="baseLayout" name="/goods/categoryGoodsHealth">
+        <put-attribute name="title" value="상품 검색 결과 페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/goods/categoryGoodsHealth.jsp"/>
+    </definition>
+
+
+</tiles-definitions>
+
+

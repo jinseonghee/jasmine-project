@@ -1,0 +1,62 @@
+/*폰트 스타일정의*/
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+{
+	font-family:'Nanum Gothic';
+}
+body {
+	background-position: top; font-family: 'Nanum Gothic', Arial,serif; margin: 0px; padding: 0px; color: rgb(102, 102, 102);font-size: 1em; background-image: url("../imgs/body_back.gif"); background-repeat: repeat-x; background-color: rgb(255, 255, 255);
+	 /* font-family: "Dotum", Arial,serif;  */
+}
+a{
+	color:#000000;
+	text-decoration: none;
+}
+a:hover{
+	color:#bbbbbb;
+	text-decoration: none;
+	cursor:pointer;
+}
+/*네비게이션바 배경색상*/
+.navbar-default{
+	background-color: #B1F1FC;
+	border-color: #0000000;
+}
+.navbar-default .navbar-brand{
+	color:#ffffff;
+}
+/*마우스포인터를 갖다 댔을경우 해당포커스의 색상변화*/
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus{
+	background-color: transparent;
+	color: #bbbbbb;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,{/*현재 선택된 내비게이션 색상 이벤트*/
+	color:white;
+	background-color :#000000;
+}
+.navbar-default .navbar-nav > .active > li >a:hover,
+.navbar-default .navbar-nav > .active > li >a:focus{
+	color:#bbbbbb;
+
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus,{/*dropdown이 열렸을때 마우스 색상이벤트*/
+	color:#000000;
+	background-color :#ffffff;
+	text-decoration: none;	
+}
+.navbar-default .navbar-nav > li > a{
+	color:white;
+}
+@media (max-width: 767px){/*해상도가 작을 때 드랍다운 아이템에 마우스를 올렷을 때*/
+	.navbar-default .navbar-nav .open .dropdown-menu>li>a{
+		color:#ffffff;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
+	.navbar-default .navbar-nav .open .dropdown-menu>li>a:focus{
+		color:#bbbbbb;
+	}
+}

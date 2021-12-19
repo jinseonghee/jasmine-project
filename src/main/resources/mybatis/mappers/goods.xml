@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.goods">
+    <!-- 리절트 맵 정의 -->
+    <resultMap id="goodsResult" type="goodsVO">
+        <result column="goods_id" property="goods_id"/>
+        <result column="goods_title" property="goods_title"/>
+        <result column="goods_writer" property="goods_writer"/>
+        <result column="goods_price" property="goods_price"/>
+        <result column="goods_publisher" property="goods_publisher"/>
+
+        <result column="goods_status" property="goods_status"/>
+        <result column="goods_sales_price" property="goods_sales_price"/>
+        <result column="goods_published_date" property="goods_published_date"/>
+        <result column="goods_total_page" property="goods_total_page"/>
+        <result column="goods_isbn" property="goods_isbn"/>
+        <result column="goods_delivery_price" property="goods_delivery_price"/>
+        <result column="goods_delivery_date" property="goods_delivery_date"/>
+
+        <result column="fileName" property="goods_fileName"/>
+        <result column="goods_sort" property="goods_sort"/>
+        <result column="goods_writer_intro" property="goods_writer_intro"/>
+        <result column="goods_contents_order" property="goods_contents_order"/>
+        <result column="goods_intro" property="goods_intro"/>
+    </resultMap>
+
+    <resultMap id="imageResult" type="imageFileVO">
+        <result column="goods_id" property="goods_id"/>
+        <result column="fileName" property="fileName"/>
+        <result column="reg_id" property="reg_id"/>
+        <result column="image_id" property="image_id"/>
+        <result column="fileType" property="fileType"/>
+    </resultMap>
+
+
+    <select id="selectGoodsList" parameterType="String" resultMap="goodsResult">
+        <![CDATA[
+         select t.*
+          from(
+			select g.*,d.fileName from t_shopping_goods g, t_goods_detail_image d
+        	where g.goods_id=d.goods_id 
+        	and d.filetype='main_image'
+        	and goods_status=#{goodsStatus}
+            order by g.goods_creDate desc)  t
+	             where   rowNum <16
+	    ]]>
+    </select>
+
+    <select id="selectGoodsDetail" parameterType="String" resultMap="goodsResult">
+        <![CDATA[
+		     select g.*,d.fileName from t_shopping_goods g, t_goods_detail_image d
+	        where g.goods_id=d.goods_id
+	        and d.filetype='main_image'
+	        and g.goods_id=#{goods_id}
+	        order by g.goods_id
+    	]]>
+    </select>
+    <select id="selectGoodsDetailImage" parameterType="String" resultMap="imageResult">
+        <![CDATA[
+		    	select * from  t_goods_detail_image 
+		    	where  fileType!='main_image'
+				and goods_id=#{goods_id}
+    	]]>
+    </select>
+
+    <select id="selectGoodsBySearchWord" parameterType="String" resultMap="goodsResult">
+        <![CDATA[
+				select g.*,d.fileName from t_shopping_goods g, t_goods_detail_image d
+		    where g.goods_id=d.goods_id
+		    and d.filetype='main_image'
+		    and g.goods_title like '%'|| #{searchWord} || '%'
+		    order by g.goods_creDate desc
+		]]>
+    </select>
+
+    <select id="selectKeywordSearch" parameterType="String" resultType="String">
+        <![CDATA[
+        select goods_title from t_shopping_goods 
+        where         
+        goods_title like '%'|| #{keyword} || '%'
+        order by goods_creDate desc
+		]]>
+    </select>
+
+    <select id="selectGoodsByCategory" parameterType="String" resultMap="goodsResult">
+        <![CDATA[
+		     select g.*,d.fileName from t_shopping_goods g, t_goods_detail_image d
+	        where g.goods_id=d.goods_id
+	        and d.filetype='main_image'
+	        and g.goods_sort=#{keyWord}
+	        order by g.goods_id
+    	]]>
+    </select>
+
+</mapper>

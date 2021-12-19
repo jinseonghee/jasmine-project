@@ -1,0 +1,15 @@
+version: '3'
+services:
+  oracle11g:
+    platform: linux/x86_64
+    container_name: jasmine-local-oracle
+    image: jaspeen/oracle-xe-11g
+    volumes:
+      - ~/docker/data:/u01/app/oracle jaspeen/oracle-xe-11g
+    environment:
+      - ORACLE_ROOT_PASSWORD=1234qwer
+      - ORACLE_DATABASE=jasmine
+      - ORACLE_USER=local
+      - ORACLE_PASSWORD=local
+    ports:
+      - 1521:1521

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.admin.order">
+    <resultMap id="orderResult" type="OrderVO">
+        <result column="order_id" property="order_id"/>
+        <result column="member_id" property="member_id"/>
+        <result column="goods_id" property="goods_id"/>
+        <result column="goods_title" property="goods_title"/>
+        <result column="goods_sales_price" property="goods_sales_price"/>
+        <result column="order_total_price" property="order_total_price"/>
+        <result column="order_goods_qty" property="order_goods_qty"/>
+
+        <result column="orderer_name" property="orderer_name"/>
+        <result column="receiver_name" property="receiver_name"/>
+        <result column="receiver_hp1" property="receiver_hp1"/>
+        <result column="receiver_hp2" property="receiver_hp2"/>
+        <result column="receiver_hp3" property="receiver_hp3"/>
+
+        <result column="receiver_tel1" property="receiver_tel1"/>
+        <result column="receiver_tel2" property="receiver_tel2"/>
+        <result column="receiver_tel3" property="receiver_tel3"/>
+        <result column="delivery_address" property="delivery_address"/>
+        <result column="delivery_message" property="delivery_message"/>
+
+        <result column="delivery_method" property="delivery_method"/>
+        <result column="gift_wrapping" property="gift_wrapping"/>
+        <result column="pay_method" property="pay_method"/>
+        <result column="card_com_name" property="card_com_name"/>
+        <result column="card_pay_month" property="card_pay_month"/>
+
+        <result column="pay_orderer_hp_num" property="pay_orderer_hp_num"/>
+        <result column="pay_order_time" property="pay_order_time"/>
+        <result column="delivery_state" property="delivery_state"/>
+        <result column="final_total_price" property="final_total_price"/>
+        <result column="goods_qty" property="goods_qty"/>
+
+        <result column="goods_fileName" property="goods_fileName"/>
+    </resultMap>
+    <resultMap id="memberResult" type="memberVO">
+        <result column="member_id" property="member_id"/>
+        <result column="member_pw" property="member_pw"/>
+        <result column="member_name" property="member_name"/>
+        <result column="member_gender" property="member_gender"/>
+
+        <result column="member_birth_y" property="member_birth_y"/>
+        <result column="member_birth_m" property="member_birth_m"/>
+        <result column="member_birth_d" property="member_birth_d"/>
+
+        <result column="member_birth_gn" property="member_birth_gn"/>
+        <result column="tel1" property="tel1"/>
+        <result column="tel2" property="tel2"/>
+        <result column="tel3" property="tel3"/>
+
+        <result column="hp1" property="hp1"/>
+        <result column="hp2" property="hp2"/>
+        <result column="hp3" property="hp3"/>
+        <result column="smssts_yn" property="smssts_yn"/>
+        <result column="email1" property="email1"/>
+        <result column="email2" property="email2"/>
+        <result column="emailsts_yn" property="emailsts_yn"/>
+
+        <result column="zipcode" property="zipcode"/>
+        <result column="roadAddress" property="roadAddress"/>
+        <result column="jibunAddress" property="jibunAddress"/>
+        <result column="namujiAddress" property="namujiAddress"/>
+        <result column="joinDate" property="joinDate"/>
+    </resultMap>
+    <select id="selectNewOrderList" parameterType="java.util.HashMap" resultMap="orderResult">
+        select * from (
+        select rowNum as recNum,t.*
+        from (
+        select * from t_shopping_order
+        where to_char(pay_order_time,'yyyy-mm-dd') between #{beginDate} and #{endDate}
+        <if test="search_type=='orderer_id'">
+            AND orderer_id=#{search_word}
+        </if>
+        <if test="search_type=='orderer_name'">
+            AND orderer_name=#{search_word}
+        </if>
+        <if test="search_type=='orderer_hp_num'">
+            AND pay_orderer_hp_num=#{search_word}
+        </if>
+        order by pay_order_time desc
+        ) t
+        )
+        where
+        recNum between (#{section}-1)*100+ (#{pageNum}-1)*10+1 and (#{section}-1)*100+(#{pageNum})*10
+    </select>
+
+    <select id="selectOrderDetail" parameterType="int" resultMap="orderResult">
+        <![CDATA[
+		    select * from t_shopping_order
+            where order_id=#{order_id}
+    	]]>
+    </select>
+
+    <select id="selectOrderer" parameterType="String" resultMap="memberResult">
+        <![CDATA[
+			select * from t_shopping_member
+			where member_id=#{member_id}
+		]]>
+    </select>
+
+    <update id="updateDeliveryState" parameterType="java.util.Map">
+        update t_shopping_order
+        <set>
+            <if test=" delivery_state!='' and delivery_state!=null">
+                delivery_state=#{delivery_state}
+            </if>
+        </set>
+        where
+        order_id=#{order_id}
+    </update>
+</mapper>
+
